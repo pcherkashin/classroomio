@@ -14,7 +14,7 @@ services:
         - PRIVATE_APP_HOST=class.pavelcherkashin.com
         - PRIVATE_APP_SUBDOMAINS=app
     ports:
-      - "3004:3004"
+      - "3014:3014"
     env_file:
       - ./apps/dashboard/.env
     restart: unless-stopped
@@ -29,7 +29,7 @@ services:
         - PUBLIC_SUPABASE_URL=${PUBLIC_SUPABASE_URL}
         - PUBLIC_SUPABASE_ANON_KEY=${PUBLIC_SUPABASE_ANON_KEY}
     ports:
-      - "3002:3002"
+      - "3012:3012"
     env_file:
       - ./apps/backend/.env
     restart: unless-stopped
