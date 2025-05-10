@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  dashboard:
+    build:
+      context: .
+      dockerfile: apps/dashboard/Dockerfile.prod
+      args:
+        - PUBLIC_SUPABASE_URL=${PUBLIC_SUPABASE_URL}
+        - PUBLIC_SUPABASE_ANON_KEY=${PUBLIC_SUPABASE_ANON_KEY}
+        - PRIVATE_SUPABASE_SERVICE_ROLE=${PRIVATE_SUPABASE_SERVICE_ROLE}
+        - IS_SELFHOSTED=true
+        - DEPLOYMENT_PROVIDER=docker
+        - PRIVATE_APP_HOST=class.pavelcherkashin.com
+        - PRIVATE_APP_SUBDOMAINS=app
+    ports:
+      - "3004:3004"
+    env_file:
+      - ./apps/dashboard/.env
+    restart: unless-stopped
+    networks:
+      - classroomio_network
+
+  backend:
+    build:
+      context: .
+      dockerfile: apps/backend/Dockerfile.prod
+      args:
+        - PUBLIC_SUPABASE_URL=${PUBLIC_SUPABASE_URL}
+        - PUBLIC_SUPABASE_ANON_KEY=${PUBLIC_SUPABASE_ANON_KEY}
+    ports:
+      - "3002:3002"
+    env_file:
+      - ./apps/backend/.env
+    restart: unless-stopped
+    networks:
+      - classroomio_network
+
+networks:
+  classroomio_network:
+    name: classroomio_network
+    driver: bridge
